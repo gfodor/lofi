@@ -1,0 +1,67 @@
+{
+  "name": "lofi",
+  "version": "1.0.0",
+  "scripts": {
+    "dev": "electron-esbuild dev",
+    "build": "electron-esbuild build",
+    "package": "electron-builder"
+  },
+  "devDependencies": {
+    "electron": "16.x",
+    "electron-builder": "22.x",
+    "electron-esbuild": "4.x",
+    "electron-util": "0.17.x",
+    "esbuild": "0.x",
+    "react": "17.x",
+    "react-dom": "17.x"
+  },
+  "build": {
+    "appId": "io.comp.myapp",
+    "productName": "lofi",
+    "extraMetadata": {
+      "name": "lofi",
+      "main": "main.js"
+    },
+    "files": [
+      {
+        "from": ".",
+        "filter": [
+          "package.json"
+        ]
+      },
+      {
+        "from": "dist/main"
+      },
+      {
+        "from": "dist/renderer"
+      }
+    ],
+    "win": {
+      "target": [
+        "zip"
+      ]
+    },
+    "mac": {
+      "target": [
+        "zip"
+      ]
+    },
+    "linux": {
+      "target": [
+        "zip"
+      ]
+    },
+    "directories": {
+      "buildResources": "resources"
+    },
+    "publish": null
+  },
+  "dependencies": {
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.5.1"
+  }
+}
