@@ -64,6 +64,7 @@
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
     "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
+    "libyuv": "github:gfodor/libyuv-node#bug/old-constants",
     "prettier": "^2.5.1",
     "ref-napi": "^1.5.2",
     "ref-struct-di": "^1.1.1"
