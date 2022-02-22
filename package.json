@@ -7,7 +7,7 @@
     "package": "electron-builder"
   },
   "devDependencies": {
-    "electron": "16.x",
+    "electron": "^17.0.1",
     "electron-builder": "22.x",
     "electron-esbuild": "4.x",
     "electron-util": "0.17.x",
@@ -62,6 +62,8 @@
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.28.0",
     "eslint-plugin-react-hooks": "^4.3.0",
-    "prettier": "^2.5.1"
+    "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
+    "prettier": "^2.5.1",
+    "ref-struct-di": "^1.1.1"
   }
 }
