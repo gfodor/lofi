@@ -1,4 +1,5 @@
 import * as path from "path";
+import { nodeExternalsPlugin } from "esbuild-node-externals";
 
 /**
  * @var {Partial<import('esbuild').BuildOptions>}
@@ -10,5 +11,6 @@ export default {
     path.resolve("src/main/preload.js"),
   ],
   bundle: true,
-  target: "node16.5.0", // electron version target
+  target: "node14.16.1", // electron version target
+  plugins: [nodeExternalsPlugin()],
 };
