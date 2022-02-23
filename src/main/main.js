@@ -20,7 +20,8 @@ app.disableHardwareAcceleration();
 
 let win = null;
 let addon = null;
-let cam_fd = -1;
+let cameraFd = -1;
+const frameTimings = [];
 
 const PLATFORM = "mac";
 
@@ -75,7 +76,7 @@ async function createWindow() {
 
   if (PLATFORM === "linux") {
     fs.open(DEVICE_NAME, "as+", 0o666, (err, fd) => {
-      cam_fd = fd;
+      cameraFd = fd;
 
       const pixfmt = new v4l2_fmt_pix({
         type: V4L2_BUF_TYPE_VIDEO_OUTPUT,
@@ -84,7 +85,7 @@ async function createWindow() {
         pixelformat: V4L2_PIX_FMT_YUV420,
       });
 
-      if (ioctl(cam_fd, VIDIOC_S_FMT, pixfmt.ref()) === -1) {
+      if (ioctl(cameraFd, VIDIOC_S_FMT, pixfmt.ref()) === -1) {
         // TODO error
       }
     });
@@ -93,12 +94,19 @@ async function createWindow() {
   win.webContents.setFrameRate(60);
 
   win.webContents.on("paint", (event, dirty, image) => {
+    // TODO this Uint8Array may not be needed
+    const now = performance.now();
+    frameTimings.push(now);
+
+    if (frameTimings.length > 180) {
+      frameTimings.shift();
+    }
+
     const buf = new Uint8Array(image.getBitmap());
+    const { width, height: height_ } = image.getSize();
+    const height = Math.abs(height_);
 
-    if (PLATFORM === "linux" && cam_fd !== -1) {
-      const { width, height: height_ } = image.getSize();
-      const height = Math.abs(height_);
-
+    if (PLATFORM === "linux" && cameraFd !== -1) {
       const i420 = new Uint8Array(new Buffer(Math.floor(width * height * 1.5)));
       i420.fill(0, 0, Math.floor(width * height * 1.5));
 
@@ -118,7 +126,26 @@ async function createWindow() {
         width,
         height
       );
-      fs.write(cam_fd, i420, () => {});
+      fs.write(cameraFd, i420, () => {});
+    }
+
+    if (frameTimings.length > 5) {
+      const fpsDenominator = Math.floor(
+        frameTimings[frameTimings.length - 1] - frameTimings[0]
+      );
+      const fpsNumerator = frameTimings.length;
+      const fps = fpsNumerator / fpsDenominator;
+
+      if (addonModule.sendFrame) {
+        addonModule.sendFrame(
+          width,
+          height,
+          BigInt(new Date().getTime()),
+          fpsNumerator,
+          fpsDenominator,
+          buf.buffer
+        );
+      }
     }
   });
 
@@ -159,7 +186,7 @@ app.on("quit", () => {
     addonModule.stopServer();
   }
 
-  if (cam_fd !== -1) {
-    fs.close(cam_fd);
+  if (cameraFd !== -1) {
+    fs.close(cameraFd);
   }
 });

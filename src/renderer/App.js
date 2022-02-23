@@ -6,7 +6,7 @@ export function App() {
   useEffect(() => {
     const timer = setInterval(() => {
       setCount((c) => c + 1);
-    }, 1000);
+    }, 15);
 
     return () => clearInterval(timer);
   }, []);
