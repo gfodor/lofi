@@ -3,6 +3,7 @@
 //  obs-mac-virtualcam
 //
 //  Created by John Boiles  on 4/10/20.
+//  Modified by Greg Fodor  on 2/2/22.
 //
 //  obs-mac-virtualcam is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -82,7 +83,7 @@
 		return sizeof(Boolean);
 	case kCMIODevicePropertyLinkedCoreAudioDeviceUID:
 		return sizeof(CFStringRef);
-	case kCMIODevicePropertyDeviceMaster:
+	case kCMIODevicePropertyDeviceControl:
 		return sizeof(pid_t);
 	default:
 		break;
@@ -102,15 +103,15 @@
 
 	switch (address.mSelector) {
 	case kCMIOObjectPropertyName:
-		*static_cast<CFStringRef *>(data) = CFSTR("OBS Virtual Camera");
+		*static_cast<CFStringRef *>(data) = CFSTR("LoFi Virtual Camera");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIOObjectPropertyManufacturer:
-		*static_cast<CFStringRef *>(data) = CFSTR("John Boiles");
+		*static_cast<CFStringRef *>(data) = CFSTR("1729");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIOObjectPropertyElementCategoryName:
-		*static_cast<CFStringRef *>(data) = CFSTR("Virtual Camera");
+		*static_cast<CFStringRef *>(data) = CFSTR("Pseudonymous Camera");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIOObjectPropertyElementNumberName:
@@ -183,7 +184,7 @@
 		*static_cast<Boolean *>(data) = false;
 		*dataUsed = sizeof(Boolean);
 		break;
-	case kCMIODevicePropertyDeviceMaster:
+	case kCMIODevicePropertyDeviceControl:
 		*static_cast<pid_t *>(data) = self.masterPid;
 		*dataUsed = sizeof(pid_t);
 		break;
@@ -214,7 +215,7 @@
 	case kCMIODevicePropertyExcludeNonDALAccess:
 	case kCMIODevicePropertyCanProcessAVCCommand:
 	case kCMIODevicePropertyCanProcessRS422Command:
-	case kCMIODevicePropertyDeviceMaster:
+	case kCMIODevicePropertyDeviceControl:
 		return true;
 	case kCMIODevicePropertyStreamConfiguration:
 	case kCMIODevicePropertyLinkedCoreAudioDeviceUID:
@@ -249,7 +250,7 @@
 	case kCMIODevicePropertyLinkedCoreAudioDeviceUID:
 		return false;
 	case kCMIODevicePropertyExcludeNonDALAccess:
-	case kCMIODevicePropertyDeviceMaster:
+	case kCMIODevicePropertyDeviceControl:
 		return true;
 	default:
 		return false;
@@ -268,7 +269,7 @@
 		self.excludeNonDALAccess =
 			(*static_cast<const UInt32 *>(data) != 0);
 		break;
-	case kCMIODevicePropertyDeviceMaster:
+	case kCMIODevicePropertyDeviceControl:
 		self.masterPid = *static_cast<const pid_t *>(data);
 		break;
 	default:

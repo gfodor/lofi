@@ -3,6 +3,7 @@
 //  obs-mac-virtualcam
 //
 //  Created by John Boiles  on 4/9/20.
+//  Modified by Greg Fodor  on 2/2/22.
 //
 //  obs-mac-virtualcam is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -21,9 +22,9 @@
 #import "OBSDALMachClient.h"
 #import "OBSDALStream.h"
 
-#define kTestCardWidthKey @"obs-mac-virtualcam-test-card-width"
-#define kTestCardHeightKey @"obs-mac-virtualcam-test-card-height"
-#define kTestCardFPSKey @"obs-mac-virtualcam-test-card-fps"
+#define kTestCardWidthKey @"lofi-cam-test-card-width"
+#define kTestCardHeightKey @"lofi-cam-test-card-height"
+#define kTestCardFPSKey @"lofi-cam-test-card-fps"
 
 NS_ASSUME_NONNULL_BEGIN
 

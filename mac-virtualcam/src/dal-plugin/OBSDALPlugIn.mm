@@ -3,6 +3,7 @@
 //  obs-mac-virtualcam
 //
 //  Created by John Boiles  on 4/9/20.
+//  Modified by Greg Fodor  on 2/2/22.
 //
 //  obs-mac-virtualcam is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -58,7 +59,7 @@ typedef enum {
 {
 	if (self = [super init]) {
 		_stateQueue = dispatch_queue_create(
-			"com.obsproject.obs-mac-virtualcam.dal.state",
+			"com.ostn.lofi-cam.dal.state",
 			DISPATCH_QUEUE_SERIAL);
 
 		_timeoutTimer = dispatch_source_create(

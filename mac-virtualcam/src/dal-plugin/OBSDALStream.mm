@@ -116,7 +116,7 @@
 	if (_clock == NULL) {
 		OSStatus err = CMIOStreamClockCreate(
 			kCFAllocatorDefault,
-			CFSTR("obs-mac-virtualcam::Stream::clock"),
+			CFSTR("lofi-cam::Stream::clock"),
 			(__bridge void *)self, CMTimeMake(1, 10), 100, 10,
 			&_clock);
 		if (err != noErr) {
@@ -173,7 +173,7 @@
 		NSURL *homeUrl = [fileManager homeDirectoryForCurrentUser];
 		NSURL *customUrl = [homeUrl
 			URLByAppendingPathComponent:
-				@"Library/Application Support/obs-studio/plugin_config/mac-virtualcam/placeholder.png"];
+				@"Library/Application Support/lofi/plugin_config/lofi-cam/placeholder.png"];
 		NSString *customPlaceHolder = customUrl.path;
 		if ([fileManager isReadableFileAtPath:customPlaceHolder])
 			placeHolderPath = customPlaceHolder;

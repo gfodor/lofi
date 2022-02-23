@@ -48,7 +48,7 @@ add_library(mac-dal-plugin MODULE
 set_target_properties(mac-dal-plugin PROPERTIES
 	FOLDER "plugins"
 	BUNDLE TRUE
-	OUTPUT_NAME "obs-mac-virtualcam"
+	OUTPUT_NAME "lofi-cam"
 	COMPILE_FLAGS "-std=gnu++14 -stdlib=libc++ -fobjc-arc -fobjc-weak")
 
 if (XCODE)
@@ -67,8 +67,8 @@ target_link_libraries(mac-dal-plugin
 
 add_custom_command(TARGET mac-dal-plugin
 	POST_BUILD
-	COMMAND rm -rf ${TARGET_DIR}/obs-mac-virtualcam.plugin || true
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${TARGET_DIR}/obs-mac-virtualcam.bundle ${TARGET_DIR}/obs-mac-virtualcam.plugin
+	COMMAND rm -rf ${TARGET_DIR}/lofi-cam.plugin || true
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${TARGET_DIR}/lofi-cam.bundle ${TARGET_DIR}/lofi-cam.plugin
 	COMMENT "Rename bundle to plugin"
 )
 
@@ -78,25 +78,25 @@ add_custom_command(TARGET mac-dal-plugin
 # Instead, just copy in one that was already generated from Xcode.
 add_custom_command(TARGET mac-dal-plugin
 	POST_BUILD
-	COMMAND cp ${PROJECT_SOURCE_DIR}/Info.plist ${TARGET_DIR}/obs-mac-virtualcam.plugin/Contents/Info.plist
-    COMMAND mkdir ${TARGET_DIR}/obs-mac-virtualcam.plugin/Contents/Resources
-    COMMAND cp ${PROJECT_SOURCE_DIR}/placeholder.png ${TARGET_DIR}/obs-mac-virtualcam.plugin/Contents/Resources/placeholder.png
-	COMMAND /usr/bin/plutil -insert CFBundleVersion -string "0.0.1" ${TARGET_DIR}/obs-mac-virtualcam.plugin/Contents/Info.plist
-	COMMAND /usr/bin/plutil -insert CFBundleShortVersionString -string "0.0.1" ${TARGET_DIR}/obs-mac-virtualcam.plugin/Contents/Info.plist
+	COMMAND cp ${PROJECT_SOURCE_DIR}/Info.plist ${TARGET_DIR}/lofi-cam.plugin/Contents/Info.plist
+    COMMAND mkdir ${TARGET_DIR}/lofi-cam.plugin/Contents/Resources
+    COMMAND cp ${PROJECT_SOURCE_DIR}/placeholder.png ${TARGET_DIR}/lofi-cam.plugin/Contents/Resources/placeholder.png
+	COMMAND /usr/bin/plutil -insert CFBundleVersion -string "0.0.1" ${TARGET_DIR}/lofi-cam.plugin/Contents/Info.plist
+	COMMAND /usr/bin/plutil -insert CFBundleShortVersionString -string "0.0.1" ${TARGET_DIR}/lofi-cam.plugin/Contents/Info.plist
 	DEPENDS {PROJECT_SOURCE_DIR}/Info.plist
 	COMMENT "Copy in Info.plist"
 )
 
 add_custom_command(TARGET mac-dal-plugin
 	POST_BUILD
-	COMMAND /usr/bin/codesign --force --deep --sign - --timestamp=none ${TARGET_DIR}/obs-mac-virtualcam.plugin
+	COMMAND /usr/bin/codesign --force --deep --sign - --timestamp=none ${TARGET_DIR}/lofi-cam.plugin
 	COMMENT "Codesign plugin"
 )
 
 add_custom_command(TARGET mac-dal-plugin
 	POST_BUILD
 	COMMAND mkdir -p ../../build/dal-plugin
-	COMMAND rm -rf "../../build/dal-plugin/$<CONFIGURATION>/data/obs-mac-virtualcam.plugin" || true
-	COMMAND ${CMAKE_COMMAND} -E copy_directory ${TARGET_DIR}/obs-mac-virtualcam.plugin "../../build/dal-plugin/$<CONFIGURATION>/data/obs-plugins/mac-virtualcam/obs-mac-virtualcam.plugin"
+	COMMAND rm -rf "../../build/dal-plugin/$<CONFIGURATION>/lofi-cam.plugin" || true
+	COMMAND ${CMAKE_COMMAND} -E copy_directory ${TARGET_DIR}/lofi-cam.plugin "../../build/dal-plugin/$<CONFIGURATION>/lofi-cam.plugin"
 	COMMENT "Copy plugin to destination"
 )
