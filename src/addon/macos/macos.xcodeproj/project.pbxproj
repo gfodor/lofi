@@ -6,9 +6,15 @@
 	objectVersion = 46;
 	objects = {
 
+/* Begin PBXBuildFile section */
+		B5947471739890A467C3A02B /* Server.mm in Sources */ = {isa = PBXBuildFile; fileRef = B5947FC1A949461424B193B2 /* Server.mm */; };
+/* End PBXBuildFile section */
+
 /* Begin PBXFileReference section */
 		B594703CFC8E6DCE718B5CDA /* addon.bundle */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = addon.bundle; sourceTree = BUILT_PRODUCTS_DIR; };
+		B594789CD264F420DA281C56 /* Server.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Server.h; sourceTree = "<group>"; };
 		B5947DC7668B332CB56201BA /* main.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = main.mm; sourceTree = "<group>"; };
+		B5947FC1A949461424B193B2 /* Server.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; path = Server.mm; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -27,6 +33,8 @@
 			children = (
 				B5947C7188812DE66B66D0BA /* Products */,
 				B5947DC7668B332CB56201BA /* main.mm */,
+				B594789CD264F420DA281C56 /* Server.h */,
+				B5947FC1A949461424B193B2 /* Server.mm */,
 			);
 			sourceTree = "<group>";
 		};
@@ -95,6 +103,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5947471739890A467C3A02B /* Server.mm in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

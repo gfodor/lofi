@@ -7,7 +7,7 @@ import cst from "ref-struct-di";
 import fs from "fs";
 import ioctl from "ioctl";
 import * as libyuv from "libyuv";
-import macPlugin from "../../build/Release/addon.node";
+import addonModule from "../../build/Release/addon.node";
 
 const DEVICE_NAME = "/dev/video4";
 const V4L2_BUF_TYPE_VIDEO_OUTPUT = 2;
@@ -19,12 +19,16 @@ console.log(JSON.stringify(process.versions, null, 2));
 app.disableHardwareAcceleration();
 
 let win = null;
+let addon = null;
 let cam_fd = -1;
 
 const PLATFORM = "mac";
+
+if (addonModule.startServer) {
+  addonModule.startServer();
+}
+
 const Struct = cst(ref);
-console.log(macPlugin);
-console.log(macPlugin.testCall());
 
 const v4l2_fmt_pix = Struct({
   type: ref.types.uint32,
@@ -142,14 +146,20 @@ app.on("window-all-closed", () => {
   if (!is.macos) {
     app.quit();
   }
-
-  if (cam_fd !== -1) {
-    fs.close(cam_fd);
-  }
 });
 
 app.on("activate", () => {
   if (win === null && app.isReady()) {
     createWindow();
+  }
+});
+
+app.on("quit", () => {
+  if (addonModule.stopServer) {
+    addonModule.stopServer();
+  }
+
+  if (cam_fd !== -1) {
+    fs.close(cam_fd);
   }
 });
