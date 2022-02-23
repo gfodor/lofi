@@ -18,7 +18,7 @@
 //  You should have received a copy of the GNU General Public License
 //  along with obs-mac-virtualcam. If not, see <http://www.gnu.org/licenses/>.
 
-#import "OBSDALPlugIn.h"
+#import "LOFIDALPlugIn.h"
 
 #import "Logging.h"
 
@@ -26,9 +26,9 @@ typedef enum {
 	PlugInStateNotStarted = 0,
 	PlugInStateWaitingForServer,
 	PlugInStateReceivingFrames,
-} OBSDALPlugInState;
+} LOFIDALPlugInState;
 
-@interface OBSDALPlugin () <MachClientDelegate> {
+@interface LOFIDALPlugin () <MachClientDelegate> {
 	//! Serial queue for all state changes that need to be concerned with thread safety
 	dispatch_queue_t _stateQueue;
 
@@ -38,16 +38,16 @@ typedef enum {
 	//! Timeout timer when we haven't received frames for 5s
 	dispatch_source_t _timeoutTimer;
 }
-@property OBSDALPlugInState state;
-@property OBSDALMachClient *machClient;
+@property LOFIDALPlugInState state;
+@property LOFIDALMachClient *machClient;
 
 @end
 
-@implementation OBSDALPlugin
+@implementation LOFIDALPlugin
 
-+ (OBSDALPlugin *)SharedPlugIn
++ (LOFIDALPlugin *)SharedPlugIn
 {
-	static OBSDALPlugin *sPlugIn = nil;
+	static LOFIDALPlugin *sPlugIn = nil;
 	static dispatch_once_t sOnceToken;
 	dispatch_once(&sOnceToken, ^{
 		sPlugIn = [[self alloc] init];
@@ -73,7 +73,7 @@ typedef enum {
 			}
 		});
 
-		_machClient = [[OBSDALMachClient alloc] init];
+		_machClient = [[LOFIDALMachClient alloc] init];
 		_machClient.delegate = self;
 
 		_machConnectTimer = dispatch_source_create(
@@ -139,7 +139,7 @@ typedef enum {
 		return true;
 	default:
 		DLog(@"PlugIn unhandled hasPropertyWithAddress for %@",
-		     [OBSDALObjectStore
+		     [LOFIDALObjectStore
 			     StringFromPropertySelector:address.mSelector]);
 		return false;
 	};
@@ -152,7 +152,7 @@ typedef enum {
 		return false;
 	default:
 		DLog(@"PlugIn unhandled isPropertySettableWithAddress for %@",
-		     [OBSDALObjectStore
+		     [LOFIDALObjectStore
 			     StringFromPropertySelector:address.mSelector]);
 		return false;
 	};
@@ -167,7 +167,7 @@ typedef enum {
 		return sizeof(CFStringRef);
 	default:
 		DLog(@"PlugIn unhandled getPropertyDataSizeWithAddress for %@",
-		     [OBSDALObjectStore
+		     [LOFIDALObjectStore
 			     StringFromPropertySelector:address.mSelector]);
 		return 0;
 	};
@@ -183,12 +183,12 @@ typedef enum {
 	switch (address.mSelector) {
 	case kCMIOObjectPropertyName:
 		*static_cast<CFStringRef *>(data) =
-			CFSTR("OBS Virtual Camera Plugin");
+			CFSTR("LOFI Virtual Camera Plugin");
 		*dataUsed = sizeof(CFStringRef);
 		return;
 	default:
 		DLog(@"PlugIn unhandled getPropertyDataWithAddress for %@",
-		     [OBSDALObjectStore
+		     [LOFIDALObjectStore
 			     StringFromPropertySelector:address.mSelector]);
 		return;
 	};
@@ -201,7 +201,7 @@ typedef enum {
 			      data:(nonnull const void *)data
 {
 	DLog(@"PlugIn unhandled setPropertyDataWithAddress for %@",
-	     [OBSDALObjectStore StringFromPropertySelector:address.mSelector]);
+	     [LOFIDALObjectStore StringFromPropertySelector:address.mSelector]);
 }
 
 #pragma mark - MachClientDelegate

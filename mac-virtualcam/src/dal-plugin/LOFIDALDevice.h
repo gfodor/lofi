@@ -19,11 +19,11 @@
 
 #import <Foundation/Foundation.h>
 
-#import "OBSDALObjectStore.h"
+#import "LOFIDALObjectStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBSDALDevice : NSObject <CMIOObject>
+@interface LOFIDALDevice : NSObject <CMIOObject>
 
 @property CMIOObjectID objectId;
 @property CMIOObjectID pluginId;

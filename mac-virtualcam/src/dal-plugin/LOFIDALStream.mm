@@ -17,16 +17,16 @@
 //  You should have received a copy of the GNU General Public License
 //  along with obs-mac-virtualcam. If not, see <http://www.gnu.org/licenses/>.
 
-#import "OBSDALStream.h"
+#import "LOFIDALStream.h"
 
 #import <AppKit/AppKit.h>
 #import <mach/mach_time.h>
 
 #import "Logging.h"
 #import "CMSampleBufferUtils.h"
-#import "OBSDALPlugIn.h"
+#import "LOFIDALPlugIn.h"
 
-@interface OBSDALStream () {
+@interface LOFIDALStream () {
 	CMSimpleQueueRef _queue;
 	CFTypeRef _clock;
 	NSImage *_testCardImage;
@@ -46,7 +46,7 @@
 
 @end
 
-@implementation OBSDALStream
+@implementation LOFIDALStream
 
 #define DEFAULT_FPS 30.0
 #define DEFAULT_WIDTH 1280
@@ -165,7 +165,7 @@
 {
 	if (_testCardImage == nil) {
 		NSString *bundlePath = [[NSBundle
-			bundleForClass:[OBSDALStream class]] bundlePath];
+			bundleForClass:[LOFIDALStream class]] bundlePath];
 		NSString *placeHolderPath = [bundlePath
 			stringByAppendingString:
 				@"/Contents/Resources/placeholder.png"];
@@ -454,12 +454,12 @@
 {
 	switch (address.mSelector) {
 	case kCMIOObjectPropertyName:
-		*static_cast<CFStringRef *>(data) = CFSTR("OBS Virtual Camera");
+		*static_cast<CFStringRef *>(data) = CFSTR("LOFI Virtual Camera");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIOObjectPropertyElementName:
 		*static_cast<CFStringRef *>(data) =
-			CFSTR("OBS Virtual Camera Stream Element");
+			CFSTR("LOFI Virtual Camera Stream Element");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIOObjectPropertyManufacturer:
@@ -541,7 +541,7 @@
 	case kCMIOStreamPropertyInitialPresentationTimeStampForLinkedAndSyncedAudio:
 	case kCMIOStreamPropertyOutputBuffersNeededForThrottledPlayback:
 		DLog(@"TODO: %@",
-		     [OBSDALObjectStore
+		     [LOFIDALObjectStore
 			     StringFromPropertySelector:address.mSelector]);
 		return false;
 	default:

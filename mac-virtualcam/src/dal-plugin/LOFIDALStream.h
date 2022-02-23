@@ -1,9 +1,8 @@
 //
-//  PlugIn.h
+//  Stream.h
 //  obs-mac-virtualcam
 //
-//  Created by John Boiles  on 4/9/20.
-//  Modified by Greg Fodor  on 2/2/22.
+//  Created by John Boiles  on 4/10/20.
 //
 //  obs-mac-virtualcam is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
@@ -18,31 +17,29 @@
 //  You should have received a copy of the GNU General Public License
 //  along with obs-mac-virtualcam. If not, see <http://www.gnu.org/licenses/>.
 
-#import "OBSDALObjectStore.h"
-#import "OBSDALMachClient.h"
-#import "OBSDALStream.h"
-
-#define kTestCardWidthKey @"lofi-cam-test-card-width"
-#define kTestCardHeightKey @"lofi-cam-test-card-height"
-#define kTestCardFPSKey @"lofi-cam-test-card-fps"
+#import "LOFIDALObjectStore.h"
 
 NS_ASSUME_NONNULL_BEGIN
 
-@interface OBSDALPlugin : NSObject <CMIOObject>
+@interface LOFIDALStream : NSObject <CMIOObject>
 
-@property CMIOObjectID objectId;
-@property (readonly) OBSDALMachClient *machClient;
-@property OBSDALStream *stream;
+@property CMIOStreamID objectId;
 
-+ (OBSDALPlugin *)SharedPlugIn;
+- (instancetype _Nonnull)init;
 
-- (void)initialize;
+- (CMSimpleQueueRef)copyBufferQueueWithAlteredProc:
+			    (CMIODeviceStreamQueueAlteredProc)alteredProc
+				     alteredRefCon:(void *)alteredRefCon;
 
-- (void)teardown;
+- (void)startServingDefaultFrames;
 
-- (void)startStream;
+- (void)stopServingDefaultFrames;
 
-- (void)stopStream;
+- (void)queueFrameWithSize:(NSSize)size
+		 timestamp:(uint64_t)timestamp
+	      fpsNumerator:(uint32_t)fpsNumerator
+	    fpsDenominator:(uint32_t)fpsDenominator
+		 frameData:(NSData *)frameData;
 
 @end
 

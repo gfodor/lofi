@@ -5,16 +5,16 @@
 //  Created by John Boiles  on 5/5/20.
 //
 
-#import "OBSDALMachClient.h"
+#import "LOFIDALMachClient.h"
 #import "MachProtocol.h"
 #import "Logging.h"
 
-@interface OBSDALMachClient () <NSPortDelegate> {
+@interface LOFIDALMachClient () <NSPortDelegate> {
 	NSPort *_receivePort;
 }
 @end
 
-@implementation OBSDALMachClient
+@implementation LOFIDALMachClient
 
 - (void)dealloc
 {

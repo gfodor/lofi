@@ -22,24 +22,24 @@ include_directories(${APPKIT}
 set(mac-dal-plugin_HEADERS
 	Defines.h
 	Logging.h
-	OBSDALPlugInInterface.h
-	OBSDALObjectStore.h
-	OBSDALPlugIn.h
-	OBSDALDevice.h
-	OBSDALStream.h
+	LOFIDALPlugInInterface.h
+	LOFIDALObjectStore.h
+	LOFIDALPlugIn.h
+	LOFIDALDevice.h
+	LOFIDALStream.h
 	CMSampleBufferUtils.h
-	OBSDALMachClient.h
+	LOFIDALMachClient.h
 	../common/MachProtocol.h)
 
 set(mac-dal-plugin_SOURCES
-	OBSDALPlugInMain.mm
-	OBSDALPlugInInterface.mm
-	OBSDALObjectStore.mm
-	OBSDALPlugIn.mm
-	OBSDALDevice.mm
-	OBSDALStream.mm
+	LOFIDALPlugInMain.mm
+	LOFIDALPlugInInterface.mm
+	LOFIDALObjectStore.mm
+	LOFIDALPlugIn.mm
+	LOFIDALDevice.mm
+	LOFIDALStream.mm
 	CMSampleBufferUtils.mm
-	OBSDALMachClient.mm)
+	LOFIDALMachClient.mm)
 
 add_library(mac-dal-plugin MODULE
 	${mac-dal-plugin_SOURCES}

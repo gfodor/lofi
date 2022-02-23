@@ -109,7 +109,7 @@ OSStatus createReadonlyBlockBuffer(CMBlockBufferRef *result, NSData *data)
  CMSampleBufferCreateFromDataNoCopy
 
  Creates a CMSampleBuffer by using the bytes directly from NSData (without copying them).
- Seems to mostly work but does not work at full resolution in OBS for some reason (which prevents loopback testing).
+ Seems to mostly work but does not work at full resolution in LOFI for some reason (which prevents loopback testing).
  */
 OSStatus CMSampleBufferCreateFromDataNoCopy(NSSize size,
 					    CMSampleTimingInfo timingInfo,

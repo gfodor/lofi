@@ -18,19 +18,19 @@
 //  You should have received a copy of the GNU General Public License
 //  along with obs-mac-virtualcam. If not, see <http://www.gnu.org/licenses/>.
 
-#import "OBSDALDevice.h"
+#import "LOFIDALDevice.h"
 
 #include <IOKit/audio/IOAudioTypes.h>
 
-#import "OBSDALPlugIn.h"
+#import "LOFIDALPlugIn.h"
 #import "Logging.h"
 
-@interface OBSDALDevice ()
+@interface LOFIDALDevice ()
 @property BOOL excludeNonDALAccess;
 @property pid_t masterPid;
 @end
 
-@implementation OBSDALDevice
+@implementation LOFIDALDevice
 
 // Note that the DAL's API calls HasProperty before calling GetPropertyDataSize. This means that it can be assumed that address is valid for the property involved.
 - (UInt32)getPropertyDataSizeWithAddress:(CMIOObjectPropertyAddress)address

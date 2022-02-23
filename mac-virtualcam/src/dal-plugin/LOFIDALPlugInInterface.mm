@@ -19,11 +19,11 @@
 //  You should have received a copy of the GNU General Public License
 //  along with obs-mac-virtualcam. If not, see <http://www.gnu.org/licenses/>.
 
-#import "OBSDALPlugInInterface.h"
+#import "LOFIDALPlugInInterface.h"
 
-#import "OBSDALPlugIn.h"
-#import "OBSDALDevice.h"
-#import "OBSDALStream.h"
+#import "LOFIDALPlugIn.h"
+#import "LOFIDALDevice.h"
+#import "LOFIDALStream.h"
 #import "Logging.h"
 
 #pragma mark Plug-In Operations
@@ -72,7 +72,7 @@ HRESULT HardwarePlugIn_QueryInterface(CMIOHardwarePlugInRef self, REFIID uuid,
 	if (CFEqual(uuidString, hardwarePluginUuid)) {
 		// Return the interface;
 		sRefCount += 1;
-		*interface = OBSDALPlugInRef();
+		*interface = LOFIDALPlugInRef();
 		CFRelease(hardwarePluginUuid);
 		CFRelease(uuidString);
 		return kCMIOHardwareNoError;
@@ -98,14 +98,14 @@ OSStatus HardwarePlugIn_InitializeWithObjectID(CMIOHardwarePlugInRef self,
 
 	OSStatus error = kCMIOHardwareNoError;
 
-	OBSDALPlugin *plugIn = [OBSDALPlugin SharedPlugIn];
+	LOFIDALPlugin *plugIn = [LOFIDALPlugin SharedPlugIn];
 	plugIn.objectId = objectID;
-	[[OBSDALObjectStore SharedObjectStore] setObject:plugIn
+	[[LOFIDALObjectStore SharedObjectStore] setObject:plugIn
 					     forObjectId:objectID];
 
-	OBSDALDevice *device = [[OBSDALDevice alloc] init];
+	LOFIDALDevice *device = [[LOFIDALDevice alloc] init];
 	CMIOObjectID deviceId;
-	error = CMIOObjectCreate(OBSDALPlugInRef(), kCMIOObjectSystemObject,
+	error = CMIOObjectCreate(LOFIDALPlugInRef(), kCMIOObjectSystemObject,
 				 kCMIODeviceClassID, &deviceId);
 	if (error != noErr) {
 		DLog(@"CMIOObjectCreate Error %d", error);
@@ -113,26 +113,26 @@ OSStatus HardwarePlugIn_InitializeWithObjectID(CMIOHardwarePlugInRef self,
 	}
 	device.objectId = deviceId;
 	device.pluginId = objectID;
-	[[OBSDALObjectStore SharedObjectStore] setObject:device
+	[[LOFIDALObjectStore SharedObjectStore] setObject:device
 					     forObjectId:deviceId];
 
-	OBSDALStream *stream = [[OBSDALStream alloc] init];
+	LOFIDALStream *stream = [[LOFIDALStream alloc] init];
 	CMIOObjectID streamId;
-	error = CMIOObjectCreate(OBSDALPlugInRef(), deviceId,
+	error = CMIOObjectCreate(LOFIDALPlugInRef(), deviceId,
 				 kCMIOStreamClassID, &streamId);
 	if (error != noErr) {
 		DLog(@"CMIOObjectCreate Error %d", error);
 		return error;
 	}
 	stream.objectId = streamId;
-	[[OBSDALObjectStore SharedObjectStore] setObject:stream
+	[[LOFIDALObjectStore SharedObjectStore] setObject:stream
 					     forObjectId:streamId];
 	device.streamId = streamId;
 	plugIn.stream = stream;
 
 	// Tell the system about the Device
 	error = CMIOObjectsPublishedAndDied(
-		OBSDALPlugInRef(), kCMIOObjectSystemObject, 1, &deviceId, 0, 0);
+		LOFIDALPlugInRef(), kCMIOObjectSystemObject, 1, &deviceId, 0, 0);
 	if (error != kCMIOHardwareNoError) {
 		DLog(@"CMIOObjectsPublishedAndDied plugin/device Error %d",
 		     error);
@@ -140,7 +140,7 @@ OSStatus HardwarePlugIn_InitializeWithObjectID(CMIOHardwarePlugInRef self,
 	}
 
 	// Tell the system about the Stream
-	error = CMIOObjectsPublishedAndDied(OBSDALPlugInRef(), deviceId, 1,
+	error = CMIOObjectsPublishedAndDied(LOFIDALPlugInRef(), deviceId, 1,
 					    &streamId, 0, 0);
 	if (error != kCMIOHardwareNoError) {
 		DLog(@"CMIOObjectsPublishedAndDied device/stream Error %d",
@@ -157,7 +157,7 @@ OSStatus HardwarePlugIn_Teardown(CMIOHardwarePlugInRef self)
 
 	OSStatus error = kCMIOHardwareNoError;
 
-	OBSDALPlugin *plugIn = [OBSDALPlugin SharedPlugIn];
+	LOFIDALPlugin *plugIn = [LOFIDALPlugin SharedPlugIn];
 	[plugIn teardown];
 
 	return error;
@@ -180,7 +180,7 @@ HardwarePlugIn_ObjectHasProperty(CMIOHardwarePlugInRef self,
 	UNUSED_PARAMETER(self);
 
 	NSObject<CMIOObject> *object =
-		[OBSDALObjectStore GetObjectWithId:objectID];
+		[LOFIDALObjectStore GetObjectWithId:objectID];
 
 	if (object == nil) {
 		DLogFunc(@"ERR nil object");
@@ -201,7 +201,7 @@ OSStatus HardwarePlugIn_ObjectIsPropertySettable(
 {
 
 	NSObject<CMIOObject> *object =
-		[OBSDALObjectStore GetObjectWithId:objectID];
+		[LOFIDALObjectStore GetObjectWithId:objectID];
 
 	if (object == nil) {
 		DLogFunc(@"ERR nil object");
@@ -212,7 +212,7 @@ OSStatus HardwarePlugIn_ObjectIsPropertySettable(
 
 	DLogFunc(@"%@(%d) %@ self=%p settable=%d",
 		 NSStringFromClass([object class]), objectID,
-		 [OBSDALObjectStore
+		 [LOFIDALObjectStore
 			 StringFromPropertySelector:address->mSelector],
 		 self, *isSettable);
 
@@ -227,7 +227,7 @@ OSStatus HardwarePlugIn_ObjectGetPropertyDataSize(
 	UNUSED_PARAMETER(self);
 
 	NSObject<CMIOObject> *object =
-		[OBSDALObjectStore GetObjectWithId:objectID];
+		[LOFIDALObjectStore GetObjectWithId:objectID];
 
 	if (object == nil) {
 		DLogFunc(@"ERR nil object");
@@ -253,7 +253,7 @@ OSStatus HardwarePlugIn_ObjectGetPropertyData(
 	UNUSED_PARAMETER(self);
 
 	NSObject<CMIOObject> *object =
-		[OBSDALObjectStore GetObjectWithId:objectID];
+		[LOFIDALObjectStore GetObjectWithId:objectID];
 
 	if (object == nil) {
 		DLogFunc(@"ERR nil object");
@@ -286,7 +286,7 @@ OSStatus HardwarePlugIn_ObjectSetPropertyData(
 {
 
 	NSObject<CMIOObject> *object =
-		[OBSDALObjectStore GetObjectWithId:objectID];
+		[LOFIDALObjectStore GetObjectWithId:objectID];
 
 	if (object == nil) {
 		DLogFunc(@"ERR nil object");
@@ -296,7 +296,7 @@ OSStatus HardwarePlugIn_ObjectSetPropertyData(
 	UInt32 *dataInt = (UInt32 *)data;
 	DLogFunc(@"%@(%d) %@ self=%p data(int)=%d",
 		 NSStringFromClass([object class]), objectID,
-		 [OBSDALObjectStore
+		 [LOFIDALObjectStore
 			 StringFromPropertySelector:address->mSelector],
 		 self, *dataInt);
 
@@ -316,8 +316,8 @@ OSStatus HardwarePlugIn_StreamCopyBufferQueue(
 	void *queueAlteredRefCon, CMSimpleQueueRef *queue)
 {
 
-	OBSDALStream *stream =
-		(OBSDALStream *)[OBSDALObjectStore GetObjectWithId:streamID];
+	LOFIDALStream *stream =
+		(LOFIDALStream *)[LOFIDALObjectStore GetObjectWithId:streamID];
 
 	if (stream == nil) {
 		DLogFunc(@"ERR nil object");
@@ -340,15 +340,15 @@ OSStatus HardwarePlugIn_DeviceStartStream(CMIOHardwarePlugInRef self,
 {
 	DLogFunc(@"self=%p device=%d stream=%d", self, deviceID, streamID);
 
-	OBSDALStream *stream =
-		(OBSDALStream *)[OBSDALObjectStore GetObjectWithId:streamID];
+	LOFIDALStream *stream =
+		(LOFIDALStream *)[LOFIDALObjectStore GetObjectWithId:streamID];
 
 	if (stream == nil) {
 		DLogFunc(@"ERR nil object");
 		return kCMIOHardwareBadObjectError;
 	}
 
-	[[OBSDALPlugin SharedPlugIn] startStream];
+	[[LOFIDALPlugin SharedPlugIn] startStream];
 
 	return kCMIOHardwareNoError;
 }
@@ -377,15 +377,15 @@ OSStatus HardwarePlugIn_DeviceStopStream(CMIOHardwarePlugInRef self,
 {
 	DLogFunc(@"self=%p device=%d stream=%d", self, deviceID, streamID);
 
-	OBSDALStream *stream =
-		(OBSDALStream *)[OBSDALObjectStore GetObjectWithId:streamID];
+	LOFIDALStream *stream =
+		(LOFIDALStream *)[LOFIDALObjectStore GetObjectWithId:streamID];
 
 	if (stream == nil) {
 		DLogFunc(@"ERR nil object");
 		return kCMIOHardwareBadObjectError;
 	}
 
-	[[OBSDALPlugin SharedPlugIn] stopStream];
+	[[LOFIDALPlugin SharedPlugIn] stopStream];
 
 	return kCMIOHardwareNoError;
 }
@@ -483,7 +483,7 @@ static CMIOHardwarePlugInInterface sInterface = {
 static CMIOHardwarePlugInInterface *sInterfacePtr = &sInterface;
 static CMIOHardwarePlugInRef sPlugInRef = &sInterfacePtr;
 
-CMIOHardwarePlugInRef OBSDALPlugInRef()
+CMIOHardwarePlugInRef LOFIDALPlugInRef()
 {
 	return sPlugInRef;
 }
