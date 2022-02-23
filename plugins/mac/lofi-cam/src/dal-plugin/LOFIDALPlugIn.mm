@@ -184,7 +184,7 @@ typedef enum {
 	switch (address.mSelector) {
 	case kCMIOObjectPropertyName:
 		*static_cast<CFStringRef *>(data) =
-			CFSTR("LOFI Virtual Camera Plugin");
+			CFSTR("LOFI Camera Plugin");
 		*dataUsed = sizeof(CFStringRef);
 		return;
 	default:

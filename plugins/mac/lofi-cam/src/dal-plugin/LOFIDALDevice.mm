@@ -104,7 +104,7 @@
 
 	switch (address.mSelector) {
 	case kCMIOObjectPropertyName:
-		*static_cast<CFStringRef *>(data) = CFSTR("LoFi Virtual Camera");
+		*static_cast<CFStringRef *>(data) = CFSTR("LoFi Camera");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIOObjectPropertyManufacturer:
