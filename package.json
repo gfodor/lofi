@@ -3,70 +3,33 @@
   "version": "1.0.0",
   "scripts": {
     "dev": "electron-esbuild dev",
-    "build": "electron-esbuild build",
+    "build": "$npm_execpath run build-native ; electron-esbuild build",
+    "build-native": "run-script-os",
+    "build-native:macos": "cp binding.macos.gyp binding.gyp ; node-gyp clean ; HOME=~/.electron-gyp node-gyp configure --target=17.0.1 --dist-url=https://electronjs.org/headers; node-gyp build ; /usr/bin/codesign --force --deep --sign - --timestamp=none build/Release/addon.node ; rm binding.gyp",
     "package": "electron-builder"
   },
-  "devDependencies": {
+  "dependencies": {
     "electron": "^17.0.1",
+    "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
+    "libyuv": "github:gfodor/libyuv-node#bug/old-constants",
+    "ref-napi": "^1.5.2",
+    "ref-struct-di": "^1.1.1",
+    "react": "17.x",
+    "react-dom": "1.x"
+  },
+  "devDependencies": {
+    "eslint": "^8.9.0",
+    "prettier": "^2.5.1",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "run-script-os": "^1.1.6",
     "electron-builder": "22.x",
     "electron-esbuild": "4.x",
     "electron-util": "0.17.x",
     "esbuild": "0.x",
     "esbuild-node-externals": "^1.4.1",
-    "react": "17.x",
-    "react-dom": "17.x"
-  },
-  "build": {
-    "appId": "io.comp.myapp",
-    "productName": "lofi",
-    "extraMetadata": {
-      "name": "lofi",
-      "main": "main.js"
-    },
-    "files": [
-      {
-        "from": ".",
-        "filter": [
-          "package.json"
-        ]
-      },
-      {
-        "from": "dist/main"
-      },
-      {
-        "from": "dist/renderer"
-      }
-    ],
-    "win": {
-      "target": [
-        "zip"
-      ]
-    },
-    "mac": {
-      "target": [
-        "zip"
-      ]
-    },
-    "linux": {
-      "target": [
-        "zip"
-      ]
-    },
-    "directories": {
-      "buildResources": "resources"
-    },
-    "publish": null
-  },
-  "dependencies": {
-    "eslint": "^8.9.0",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
-    "libyuv": "github:gfodor/libyuv-node#bug/old-constants",
-    "prettier": "^2.5.1",
-    "ref-napi": "^1.5.2",
-    "ref-struct-di": "^1.1.1"
+    "typescript": "^4.5.5"
   }
 }

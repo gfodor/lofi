@@ -74,7 +74,7 @@ add_custom_command(TARGET mac-dal-plugin
 
 # Note: Xcode seems to run a command `builtin-infoPlistUtility` to generate the Info.plist, but I'm
 # not sure where to find that binary. If we had access to it, the command would look something like:
-# builtin-infoPlistUtility ${PROJECT_SOURCE_DIR}/../common/CoreMediaIO/DeviceAbstractionLayer/Devices/Sample/PlugIn/SampleVCam-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -platform macosx -o mac-virtualcam.bundle/Contents/Info.plist
+# builtin-infoPlistUtility ${PROJECT_SOURCE_DIR}/../common/CoreMediaIO/DeviceAbstractionLayer/Devices/Sample/PlugIn/SampleVCam-Info.plist -producttype com.apple.product-type.bundle -expandbuildsettings -platform macosx -o lofi-cam.bundle/Contents/Info.plist
 # Instead, just copy in one that was already generated from Xcode.
 add_custom_command(TARGET mac-dal-plugin
 	POST_BUILD
