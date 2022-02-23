@@ -1,0 +1,14 @@
+Get obj-c in election:
+https://stackoverflow.com/questions/63625399/use-itunes-library-framework-in-node-js-electron-app
+
+Direct call:
+https://github.com/drakmail/electron-native-code/blob/master/index.js
+
+Objc bridges:
+https://github.com/TooTallNate/NodObjC
+https://github.com/nsofnetworks/objc
+
+Mach:
+https://developer.apple.com/library/archive/documentation/Darwin/Conceptual/KernelProgramming/Mach/Mach.html
+
+https://github.com/johnboiles/obs-mac-virtualcam
