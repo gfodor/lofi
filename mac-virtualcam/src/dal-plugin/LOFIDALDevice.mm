@@ -1,6 +1,7 @@
 //
 //  Device.mm
 //  obs-mac-virtualcam
+//  lofi-cam
 //
 //  Created by John Boiles  on 4/10/20.
 //  Modified by Greg Fodor  on 2/2/22.
@@ -124,12 +125,12 @@
 		break;
 	case kCMIODevicePropertyDeviceUID:
 		*static_cast<CFStringRef *>(data) =
-			CFSTR("obs-virtual-cam-device");
+			CFSTR("lofi-cam-device");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIODevicePropertyModelUID:
 		*static_cast<CFStringRef *>(data) =
-			CFSTR("obs-virtual-cam-model");
+			CFSTR("lofi-cam-model");
 		*dataUsed = sizeof(CFStringRef);
 		break;
 	case kCMIODevicePropertyTransportType:

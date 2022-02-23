@@ -1,10 +1,12 @@
 //
 //  PlugInInterface.mm
 //  obs-mac-virtualcam
+//  lofi-cam
 //
 //  This file implements the CMIO DAL plugin interface
 //
 //  Created by John Boiles  on 4/9/20.
+//  Modified by Greg Fodor  on 2/2/22.
 //
 //  obs-mac-virtualcam is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by

@@ -1,6 +1,7 @@
 //
 //  PlugIn.mm
 //  obs-mac-virtualcam
+//  lofi-cam
 //
 //  Created by John Boiles  on 4/9/20.
 //  Modified by Greg Fodor  on 2/2/22.

@@ -1,6 +1,7 @@
 //
 //  Device.h
 //  obs-mac-virtualcam
+//  lofi-cam
 //
 //  Created by John Boiles  on 4/10/20.
 //

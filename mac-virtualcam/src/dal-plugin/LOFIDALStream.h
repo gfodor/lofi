@@ -1,8 +1,10 @@
 //
 //  Stream.h
 //  obs-mac-virtualcam
+//  lofi-cam
 //
 //  Created by John Boiles  on 4/10/20.
+//  Modified by Greg Fodor  on 2/2/22.
 //
 //  obs-mac-virtualcam is free software: you can redistribute it and/or modify
 //  it under the terms of the GNU General Public License as published by
