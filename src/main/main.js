@@ -15,7 +15,6 @@ const V4L2_PIX_FMT_BGRA444 = 0x32314147;
 const V4L2_PIX_FMT_YUV420 = 0x32315559;
 const VIDIOC_S_FMT = 0xc0d05605;
 
-console.log(JSON.stringify(process.versions, null, 2));
 app.disableHardwareAcceleration();
 
 let win = null;
@@ -50,12 +49,12 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 1280 / 2,
-    height: 720 / 2,
+    width: 1280,
+    height: 720,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
-      offscreen: true,
+      offscreen: false,
     },
     show: false,
   });
@@ -111,7 +110,6 @@ async function createWindow() {
       const i420 = new Uint8Array(new Buffer(Math.floor(width * height * 1.5)));
       i420.fill(0, 0, Math.floor(width * height * 1.5));
 
-      console.log(width, height);
       const half_width = Math.floor(width / 2);
       const half_height = Math.floor(height / 2);
 
@@ -168,12 +166,14 @@ async function createWindow() {
     win.focus();
 
     if (isDev) {
-      //win.webContents.openDevTools({ mode: "bottom" });
+      win.webContents.openDevTools({ mode: "bottom" });
     }
   });
 }
 
-app.on("ready", createWindow);
+app.on("ready", () => {
+  createWindow();
+});
 
 app.on("window-all-closed", () => {
   if (!is.macos) {
