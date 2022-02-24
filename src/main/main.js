@@ -50,8 +50,8 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 1280 / 2.0,
-    height: 720 / 2.0,
+    width: 1280 / 2,
+    height: 720 / 2,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
@@ -132,7 +132,7 @@ async function createWindow() {
 
     if (frameTimings.length > 30) {
       const fpsDenominator = Math.floor(
-        frameTimings[frameTimings.length - 1] - frameTimings[0]
+        (frameTimings[frameTimings.length - 1] - frameTimings[0]) / 1000.0
       );
       const fpsNumerator = frameTimings.length;
       const fps = fpsNumerator / fpsDenominator;

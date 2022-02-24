@@ -221,9 +221,10 @@ typedef enum {
 				      forKey:kTestCardWidthKey];
 			[defaults setInteger:size.height
 				      forKey:kTestCardHeightKey];
-			[defaults setDouble:(double)fpsNumerator /
-					    (double)fpsDenominator
-				     forKey:kTestCardFPSKey];
+
+			double fps = (double)fpsNumerator/(double)fpsDenominator;
+			[defaults setDouble:fps forKey:kTestCardFPSKey];
+			DLog(@"Saving frame info %dx%d fps=%d/%d=%f", size.width, size.height, fpsNumerator, fpsDenominator, fps);
 
 			dispatch_suspend(_machConnectTimer);
 			[self.stream stopServingDefaultFrames];

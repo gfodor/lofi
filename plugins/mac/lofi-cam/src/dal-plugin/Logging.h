@@ -23,12 +23,12 @@
 #include "Defines.h"
 
 #ifdef DEBUG
+#define DLog(fmt, ...)
+#define DLogFunc(fmt, ...)
+#else
 #define DLog(fmt, ...) NSLog((PLUGIN_NAME @"(DAL): " fmt), ##__VA_ARGS__)
 #define DLogFunc(fmt, ...) \
 	NSLog((PLUGIN_NAME @"(DAL): %s " fmt), __FUNCTION__, ##__VA_ARGS__)
-#else
-#define DLog(fmt, ...)
-#define DLogFunc(fmt, ...)
 #endif
 
 #define VLog(fmt, ...)

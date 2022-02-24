@@ -140,8 +140,10 @@
 		if (width == 0 || height == 0) {
 			_testCardSize =
 				NSMakeSize(DEFAULT_WIDTH, DEFAULT_HEIGHT);
+			DLog(@"Setting default resolution %dx%d", DEFAULT_WIDTH, DEFAULT_HEIGHT);
 		} else {
 			_testCardSize = NSMakeSize(width, height);
+			DLog(@"Loaded resolution from NSUserDefaults %dx%d", width, height);
 		}
 	}
 	return _testCardSize;
@@ -156,8 +158,10 @@
 			[[defaults objectForKey:kTestCardFPSKey] doubleValue];
 		if (isnan(fps) || fps <= 0 || fps > 120) {
 			_fps = DEFAULT_FPS;
+			DLog(@"Setting default framerate %f", fps);
 		} else {
 			_fps = fps;
+			DLog(@"Loaded framerate from NSUserDefaults %f", fps);
 		}
 	}
 	return _fps;
