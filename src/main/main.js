@@ -91,6 +91,7 @@ async function createWindow() {
     });
   }
 
+  // TODO pixel ratio of 1
   win.webContents.setFrameRate(60);
 
   win.webContents.on("paint", (event, dirty, image) => {
@@ -136,6 +137,11 @@ async function createWindow() {
       const fpsNumerator = frameTimings.length;
       const fps = fpsNumerator / fpsDenominator;
 
+      const uyvy = new Uint8Array(new Buffer(Math.floor(width * height * 2)));
+      uyvy.fill(0, 0, Math.floor(width * height * 2));
+
+      libyuv.ARGBToUYVY(buf, width * 4, uyvy, width * 2, width, height);
+
       if (addonModule.sendFrame) {
         addonModule.sendFrame(
           width,
@@ -143,7 +149,7 @@ async function createWindow() {
           BigInt(new Date().getTime()),
           fpsNumerator,
           fpsDenominator,
-          buf
+          uyvy
         );
       }
     }

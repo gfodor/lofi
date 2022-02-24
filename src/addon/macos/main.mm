@@ -64,7 +64,7 @@ void SendFrame(const FunctionCallbackInfo<Value>& args) {
 
     if (server != nil) {
         [server sendFrameWithSize:size timestamp:timestamp fpsNumerator:numerator fpsDenominator:denominator frameBytes:(uint8_t *)[data mutableBytes]];
-        //NSLog(@"Got values size=%f %f timestamp=%lld num=%d denom=%d bytes=%d", size.width, size.height, timestamp, numerator, denominator, buf->ByteLength());
+       //NSLog(@"Got values size=%f %f timestamp=%lld num=%d denom=%d bytes=%d", size.width, size.height, timestamp, numerator, denominator, buf->ByteLength());
     }
 }
 
