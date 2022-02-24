@@ -44,9 +44,9 @@ void SendFrame(const FunctionCallbackInfo<Value>& args) {
         return;
     }
 
-    if (!args[5]->IsArrayBuffer()) { // buffer
+    if (!args[5]->IsArrayBufferView()) { // buffer
         isolate->ThrowException(Exception::TypeError(
-                String::NewFromUtf8Literal(isolate, "Wrong arguments 5, expected frame buffer")));
+                String::NewFromUtf8Literal(isolate, "Wrong arguments 5, expected frame buffer view")));
         return;
     }
 
@@ -57,28 +57,19 @@ void SendFrame(const FunctionCallbackInfo<Value>& args) {
     uint32_t numerator = args[3]->Uint32Value(context).FromJust();
     uint32_t denominator = args[4]->Uint32Value(context).FromJust();
 
-    if (server != nil) {
-        NSLog(@"Got values size=%f %f timestamp=%lld num=%d denom=%d", size.width, size.height, timestamp, numerator, denominator);
-    }
+    Local<ArrayBufferView> buf = Local<ArrayBufferView>::Cast(args[5]);
+    NSMutableData* data = [NSMutableData dataWithLength:sizeof(uint8_t) * buf->ByteLength()];
 
-    //- (void)sendFrameWithSize:(NSSize)size
-    //timestamp:(uint64_t)timestamp
-    //fpsNumerator:(uint32_t)fpsNumerator
-    //fpsDenominator:(uint32_t)fpsDenominator
-    //frameBytes:(uint8_t *)frameBytes;
+    buf->CopyContents([data mutableBytes], sizeof(uint8_t) * buf->ByteLength());
+
+    if (server != nil) {
+        [server sendFrameWithSize:size timestamp:timestamp fpsNumerator:numerator fpsDenominator:denominator frameBytes:(uint8_t *)[data mutableBytes]];
+        //NSLog(@"Got values size=%f %f timestamp=%lld num=%d denom=%d bytes=%d", size.width, size.height, timestamp, numerator, denominator, buf->ByteLength());
+    }
 }
 
 void StartServer(const FunctionCallbackInfo<Value>& args) {
-    //[[NSAutoreleasePool alloc] init]; // Set this up so Cocoa works
-
-    //Isolate* isolate = args.GetIsolate(); // Setup for Javascript Connection
-    //Local<v8::Context> context = isolate->GetCurrentContext();
-    //Local<String> keyTitle = String::NewFromUtf8(isolate, "title").ToLocalChecked();
-
-    //Local<Array> jsSongsArr = Array::New(isolate, 1); // Create Array for Javascript v8 engine
-    //Local<Object> jsSong = Object::New(isolate); // Create Javascript Object
-    //jsSong->Set(context, keyTitle, String::NewFromUtf8(isolate, "2foobar").ToLocalChecked()).FromJust(); // Copy data in Javascript Object
-    //jsSongsArr->Set(context, 0, jsSong).FromJust(); // Add the Object to Javascript Array
+    [[NSAutoreleasePool alloc] init]; // Set this up so Cocoa works
 
     server = [[Server alloc] init];
     [server run];

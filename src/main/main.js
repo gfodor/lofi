@@ -129,7 +129,7 @@ async function createWindow() {
       fs.write(cameraFd, i420, () => {});
     }
 
-    if (frameTimings.length > 5) {
+    if (frameTimings.length > 30) {
       const fpsDenominator = Math.floor(
         frameTimings[frameTimings.length - 1] - frameTimings[0]
       );
@@ -143,7 +143,7 @@ async function createWindow() {
           BigInt(new Date().getTime()),
           fpsNumerator,
           fpsDenominator,
-          buf.buffer
+          buf
         );
       }
     }
