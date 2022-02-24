@@ -6,7 +6,7 @@ body {
   margin: 0;
   font-family: -apple-system, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: #00FF00;
+  background: #33aaff;
 }
 
 h1 {
@@ -17,4 +17,138 @@ h1 {
 
 .padding {
   padding: 1rem;
+}
+
+.avatar-swatch {
+  position: absolute;
+  left: -20px;
+  margin-top: 0px;
+  margin-left: 48px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 576px;
+  height: 576px;
+  flex: 0 0 576px;
+  color: transparent;
+  appearance: none;
+  -moz-appearance: none;
+  -webkit-appearance: none;
+  outline-style: none;
+  border: 0;
+  background: transparent;
+
+  filter: brightness(100%);
+  transform: scale(1, 1);
+  transition-property: filter, transform;
+  transition-duration: 75ms, 75ms;
+}
+
+.avatar-swatch:hover {
+  filter: brightness(80%);
+  transition: none;
+}
+
+.avatar-swatch:active {
+  transform: translate(0px, 1px) scale(1, 1);
+  transition: none;
+}
+
+.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]) {
+  filter: brightness(110%);
+  transform: scale(1.05, 1.05);
+  transition-delay: 0ms;
+}
+
+.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]):hover {
+  filter: brightness(80%);
+  transition: none;
+}
+
+.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]):active {
+  transform: translate(0px, 1px) scale(1.05, 1.05);
+  transition: none;
+}
+
+.avatar-swatch[data-eyes="0"] .eyes-0 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="1"] .eyes-1 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="2"] .eyes-2 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="3"] .eyes-3 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="4"] .eyes-4 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="5"] .eyes-5 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="6"] .eyes-6 {
+  visibility: visible;
+}
+.avatar-swatch[data-eyes="7"] .eyes-7 {
+  visibility: visible;
+}
+
+.avatar-swatch[data-mouth="0"] .mouth-0 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="1"] .mouth-1 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="2"] .mouth-2 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="3"] .mouth-3 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="4"] .mouth-4 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="5"] .mouth-5 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="6"] .mouth-6 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="7"] .mouth-7 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="8"] .mouth-8 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="9"] .mouth-9 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="10"] .mouth-10 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="11"] .mouth-11 {
+  visibility: visible;
+}
+.avatar-swatch[data-mouth="12"] .mouth-12 {
+  visibility: visible;
+}
+
+.avatar-eyes {
+  position: absolute;
+  top: 30px;
+  left: 6px;
+  width: 552px;
+  height: 384px;
+  visibility: hidden;
+}
+
+.avatar-mouth {
+  position: absolute;
+  top: 162px;
+  width: 504px;
+  height: 504px;
+  transform: scale(1, 0.6);
+  visibility: hidden;
 }

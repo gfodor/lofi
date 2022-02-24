@@ -12,6 +12,6 @@ export default {
   ],
   bundle: true,
   target: "chrome96", // electron version target
-  loader: { ".js": "jsx" },
+  loader: { ".js": "jsx", ".svg": "file", ".svgi": "text" },
   plugins: [inlineWorkerPlugin()],
 };

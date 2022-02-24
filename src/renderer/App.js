@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import AvatarSwatch from "./avatar-swatch";
 
 export function App() {
   const [count, setCount] = useState(0);
@@ -13,10 +14,7 @@ export function App() {
 
   return (
     <div className="padding">
-      <h1>Count {count}</h1>
-
-      <div>Hello world!</div>
-      <div>Fast full page reload from esbuild</div>
+      <AvatarSwatch />
     </div>
   );
 }

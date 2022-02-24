@@ -9,11 +9,13 @@
     "package": "electron-builder"
   },
   "dependencies": {
+    "classnames": "^2.3.1",
     "electron": "^17.0.1",
     "esbuild-plugin-inline-worker": "^0.1.1",
     "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
     "libyuv": "github:gfodor/libyuv-node#lofi/master",
     "meyda": "github:jel-app/meyda#master",
+    "prop-types": "^15.8.1",
     "react": "17.x",
     "react-dom": "17.x",
     "ref-napi": "^1.5.2",

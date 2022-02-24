@@ -50,14 +50,14 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 640,
+    height: 640,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
-      offscreen: false,
+      offscreen: true,
       enableBlinkFeatures: "SharedArrayBuffer",
-      show: true,
+      show: false,
       paintWhenInitiallyHidden: true,
     },
     show: false,
@@ -83,8 +83,8 @@ async function createWindow() {
 
       const pixfmt = new v4l2_fmt_pix({
         type: V4L2_BUF_TYPE_VIDEO_OUTPUT,
-        width: 1280,
-        height: 720,
+        width: 640,
+        height: 640,
         pixelformat: V4L2_PIX_FMT_YUV420,
       });
 
@@ -169,9 +169,9 @@ async function createWindow() {
     win.show();
     win.focus();
 
-    if (isDev) {
-      win.webContents.openDevTools({ mode: "bottom" });
-    }
+    //if (isDev) {
+    //  win.webContents.openDevTools({ mode: "bottom" });
+    //}
   });
 }
 
