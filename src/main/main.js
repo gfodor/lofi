@@ -50,8 +50,8 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 1280,
-    height: 720,
+    width: 1280 / 2.0,
+    height: 720 / 2.0,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),

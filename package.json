@@ -12,24 +12,24 @@
     "electron": "^17.0.1",
     "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
     "libyuv": "github:gfodor/libyuv-node#lofi/master",
-    "ref-napi": "^1.5.2",
-    "ref-struct-di": "^1.1.1",
     "react": "17.x",
-    "react-dom": "17.x"
+    "react-dom": "17.x",
+    "ref-napi": "^1.5.2",
+    "ref-struct-di": "^1.1.1"
   },
   "devDependencies": {
-    "eslint": "^8.9.0",
-    "prettier": "^2.5.1",
-    "eslint-config-prettier": "^8.4.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.28.0",
-    "eslint-plugin-react-hooks": "^4.3.0",
-    "run-script-os": "^1.1.6",
     "electron-builder": "22.x",
     "electron-esbuild": "4.x",
     "electron-util": "0.17.x",
     "esbuild": "0.x",
     "esbuild-node-externals": "^1.4.1",
+    "eslint": "^8.9.0",
+    "eslint-config-prettier": "^8.4.0",
+    "eslint-plugin-prettier": "^4.0.0",
+    "eslint-plugin-react": "^7.28.0",
+    "eslint-plugin-react-hooks": "^4.3.0",
+    "prettier": "^2.5.1",
+    "run-script-os": "^1.1.6",
     "typescript": "^4.5.5"
   }
 }
