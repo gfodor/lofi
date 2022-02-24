@@ -1,4 +1,5 @@
 import * as path from "path";
+import inlineWorkerPlugin from "esbuild-plugin-inline-worker";
 
 /**
  * @var {Partial<import('esbuild').BuildOptions>}
@@ -12,4 +13,5 @@ export default {
   bundle: true,
   target: "chrome96", // electron version target
   loader: { ".js": "jsx" },
+  plugins: [inlineWorkerPlugin()],
 };

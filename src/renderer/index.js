@@ -5,6 +5,7 @@ import { App } from "./App";
 import rnnWasm from "./rnnoise-vad-wasm.js";
 import vadNoiseWorkletSrc from "./vad-noise-worklet.js";
 import audioForwardWorkletSrc from "./audio-forward-worklet.js";
+import createLipSyncWorker from "./lip-sync.worker.js";
 
 navigator.mediaDevices.getUserMedia({ audio: true }).then((media) => {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
@@ -76,12 +77,25 @@ navigator.mediaDevices.getUserMedia({ audio: true }).then((media) => {
             }
           );
 
+          const lipSyncWorker = createLipSyncWorker();
+
+          lipSyncWorker.postMessage(lipSyncFeatureBuffer);
+          lipSyncWorker.postMessage(lipSyncResultBuffer);
+          lipSyncWorker.postMessage(lipSyncAudioFrameBuffer1);
+          lipSyncWorker.postMessage(lipSyncAudioFrameBuffer2);
+          lipSyncWorker.postMessage(lipSyncVadBuffer);
+          lipSyncWorker.postMessage(lipSyncAudioOffsetBuffer);
+
           source.connect(lipSyncGain);
           lipSyncForwardingNode.connect(lipSyncForwardingDestination);
           lipSyncHardLimit.connect(lipSyncVadProcessor);
           lipSyncGain.connect(lipSyncHardLimit);
           lipSyncHardLimit.connect(lipSyncForwardingNode);
           lipSyncVadProcessor.connect(lipSyncVadDestination);
+
+          setInterval(() => {
+            console.log(lipSyncResultData[0]);
+          }, 15);
         });
     });
 });
