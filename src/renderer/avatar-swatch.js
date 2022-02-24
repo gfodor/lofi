@@ -52,11 +52,7 @@ const AvatarSwatchVisemeSrcs = [
 ];
 
 const AvatarBody = () => (
-  <div
-    className={classNames("avatar-body")}
-    key="body"
-    dangerouslySetInnerHTML={{ __html: avatarBodyIcon }}
-  />
+  <div className={classNames("avatar-body")} key="body" />
 );
 
 const AvatarSwatch = forwardRef((props, ref) => {
@@ -84,6 +80,7 @@ const AvatarSwatch = forwardRef((props, ref) => {
 
   return (
     <div className={classNames("avatar-swatch")} ref={ref} {...props}>
+      <AvatarBody />
       {eyes}
       {mouths}
     </div>

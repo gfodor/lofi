@@ -6,7 +6,7 @@ body {
   margin: 0;
   font-family: -apple-system, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
-  background: #33aaff;
+  background: black;
 }
 
 h1 {
@@ -21,15 +21,15 @@ h1 {
 
 .avatar-swatch {
   position: absolute;
-  left: -20px;
-  margin-top: 0px;
-  margin-left: 48px;
+  left: 140px;
+  margin-top: 10px;
+  margin-left: 74px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 576px;
-  height: 576px;
-  flex: 0 0 576px;
+  width: 192px;
+  height: 192px;
+  flex: 0 0 192px;
   color: transparent;
   appearance: none;
   -moz-appearance: none;
@@ -42,32 +42,6 @@ h1 {
   transform: scale(1, 1);
   transition-property: filter, transform;
   transition-duration: 75ms, 75ms;
-}
-
-.avatar-swatch:hover {
-  filter: brightness(80%);
-  transition: none;
-}
-
-.avatar-swatch:active {
-  transform: translate(0px, 1px) scale(1, 1);
-  transition: none;
-}
-
-.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]) {
-  filter: brightness(110%);
-  transform: scale(1.05, 1.05);
-  transition-delay: 0ms;
-}
-
-.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]):hover {
-  filter: brightness(80%);
-  transition: none;
-}
-
-.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]):active {
-  transform: translate(0px, 1px) scale(1.05, 1.05);
-  transition: none;
 }
 
 .avatar-swatch[data-eyes="0"] .eyes-0 {
@@ -135,20 +109,32 @@ h1 {
   visibility: visible;
 }
 
+.avatar-body {
+  position: absolute;
+  width: 340px;
+  height: 340px;
+  top: 18px;
+  left: 18px;
+  border-radius: 158px;
+  color: blue;
+  background: #33aaff;
+}
+
 .avatar-eyes {
   position: absolute;
-  top: 30px;
-  left: 6px;
-  width: 552px;
-  height: 384px;
+  top: 20px;
+  left: 4px;
+  width: 368px;
+  height: 256px;
   visibility: hidden;
 }
 
 .avatar-mouth {
   position: absolute;
-  top: 162px;
-  width: 504px;
-  height: 504px;
+  top: 108px;
+  width: 336px;
+  height: 336px;
   transform: scale(1, 0.6);
   visibility: hidden;
+  left: 23px;
 }

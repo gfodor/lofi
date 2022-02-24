@@ -95,15 +95,21 @@ navigator.mediaDevices.getUserMedia({ audio: true }).then((media) => {
 });
 
 let avatarSwatch = null;
+let lastViseme = 0;
 
 const func = () => {
   if (!avatarSwatch) {
     avatarSwatch = document.querySelector(".avatar-swatch");
     if (!avatarSwatch) return;
+    avatarSwatch.setAttribute("data-eyes", 0);
+    avatarSwatch.setAttribute("data-mouth", 0);
   }
 
-  avatarSwatch.setAttribute("data-eyes", 0);
-  avatarSwatch.setAttribute("data-mouth", lipSyncResultData[0]);
+  if (lipSyncResultData[0] !== lastViseme) {
+    lastViseme = lipSyncResultData[0];
+    avatarSwatch.setAttribute("data-mouth", lastViseme);
+  }
+
   requestAnimationFrame(func);
 };
 
