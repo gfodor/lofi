@@ -34,6 +34,9 @@
 	NSImage *_testCardImage;
 	dispatch_source_t _frameDispatchSource;
 	NSSize _testCardSize;
+	NSData *_lastFrameData;
+	NSSize _lastFrameSize;
+
 	Float64 _fps;
 }
 
@@ -42,6 +45,8 @@
 @property (readonly) CMSimpleQueueRef queue;
 @property (readonly) CFTypeRef clock;
 @property UInt64 sequenceNumber;
+@property NSData* lastFrameData;
+@property NSSize lastFrameSize;
 @property (readonly) NSImage *testCardImage;
 @property (readonly) NSSize testCardSize;
 @property (readonly) Float64 fps;
@@ -317,10 +322,16 @@
 		return;
 	}
 
+	uint64_t hostTime = mach_absolute_time();
+
+	if (self.lastFrameData != NULL) {
+		[self queueFrameWithSize: self.lastFrameSize timestamp: hostTime fpsNumerator: self.fps fpsDenominator: 1 frameData: self.lastFrameData];
+		return;
+	}
+
 	CVPixelBufferRef pixelBuffer =
 		[self createPixelBufferWithTestAnimation];
 
-	uint64_t hostTime = mach_absolute_time();
 	CMSampleTimingInfo timingInfo =
 		CMSampleTimingInfoForTimestamp(hostTime, self.fps, 1);
 
@@ -377,6 +388,8 @@
 		DLog(@"CMIOStreamClockPostTimingEvent err %d", err);
 	}
 
+	self.lastFrameData = [NSData dataWithData:frameData];
+	self.lastFrameSize = NSMakeSize(size.width, size.height);
 	self.sequenceNumber = CMIOGetNextSequenceNumber(self.sequenceNumber);
 
 	CMSampleBufferRef sampleBuffer;
