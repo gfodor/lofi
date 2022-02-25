@@ -19,6 +19,27 @@ const lipSyncFeatureData = new Float32Array(lipSyncFeatureBuffer.featureBuffer);
 const lipSyncResultData = new Uint8Array(lipSyncResultBuffer);
 const lipSyncVadData = new Float32Array(lipSyncVadBuffer);
 
+const EYE_DECAL_NEUTRAL = 0;
+const EYE_DECAL_UP = 1;
+const EYE_DECAL_DOWN = 2;
+const EYE_DECAL_LEFT = 3;
+const EYE_DECAL_RIGHT = 4;
+const EYE_DECAL_BLINK1 = 5;
+const EYE_DECAL_BLINK2 = 6;
+const EYE_DECAL_BLINK3 = 7;
+const EYE_SHIFT_DECALS = [
+  EYE_DECAL_LEFT,
+  EYE_DECAL_RIGHT,
+  EYE_DECAL_UP,
+  EYE_DECAL_DOWN,
+];
+const BLINK_TRIGGER_PROBABILITY = 0.0025;
+const SHIFT_TRIGGER_PROBABILITY = 0.005;
+const BLINK_FRAME_DURATION_MS = 25.0;
+const EYE_SHIFT_DURATION_MS = 500.0;
+
+let scheduledEyeDecal = { t: 0.0, decal: 0, state: 0 };
+
 document.body.style = `zoom: ${(1 / window.devicePixelRatio) * 100}%`;
 
 navigator.mediaDevices.getUserMedia({ audio: true }).then((media) => {
@@ -110,6 +131,61 @@ const func = () => {
   if (lipSyncResultData[0] !== lastViseme) {
     lastViseme = lipSyncResultData[0];
     avatarSwatch.setAttribute("data-mouth", lastViseme);
+  }
+
+  const hasScheduledDecal = scheduledEyeDecal.t > 0.0;
+  const t = performance.now();
+
+  if (!hasScheduledDecal) {
+    const r = Math.random();
+
+    // First see if we will potentially schedule a blink or a shift.
+    if (r > 0.5 && r - 0.5 <= BLINK_TRIGGER_PROBABILITY) {
+      scheduledEyeDecal.t = t + BLINK_FRAME_DURATION_MS;
+      scheduledEyeDecal.decal = EYE_DECAL_BLINK1;
+    } else if (r < 0.5 && r <= SHIFT_TRIGGER_PROBABILITY) {
+      scheduledEyeDecal.t = t + EYE_SHIFT_DURATION_MS;
+      scheduledEyeDecal.decal =
+        EYE_SHIFT_DECALS[Math.floor(Math.random() * EYE_SHIFT_DECALS.length)];
+    }
+  }
+
+  const hasEyeDecalChange = hasScheduledDecal && scheduledEyeDecal.t < t;
+
+  if (hasEyeDecalChange) {
+    const { decal } = scheduledEyeDecal;
+
+    avatarSwatch.setAttribute("data-eyes", decal);
+
+    // Perform decal state machine for blink/shift
+    switch (decal) {
+      case EYE_DECAL_BLINK1:
+        scheduledEyeDecal.t = t + BLINK_FRAME_DURATION_MS;
+        scheduledEyeDecal.decal =
+          scheduledEyeDecal.state === 0 ? EYE_DECAL_BLINK2 : EYE_DECAL_NEUTRAL;
+        break;
+      case EYE_DECAL_BLINK2:
+        scheduledEyeDecal.t = t + BLINK_FRAME_DURATION_MS;
+        scheduledEyeDecal.decal =
+          scheduledEyeDecal.state === 0 ? EYE_DECAL_BLINK3 : EYE_DECAL_BLINK1;
+        break;
+      case EYE_DECAL_BLINK3:
+        scheduledEyeDecal.t = t + BLINK_FRAME_DURATION_MS;
+        scheduledEyeDecal.decal = EYE_DECAL_BLINK2;
+        scheduledEyeDecal.state = 1; // Used to know if closing or opening eyes in blink.
+        break;
+      case EYE_DECAL_UP:
+      case EYE_DECAL_DOWN:
+      case EYE_DECAL_LEFT:
+      case EYE_DECAL_RIGHT:
+        scheduledEyeDecal.t = t + EYE_SHIFT_DURATION_MS;
+        scheduledEyeDecal.decal = EYE_DECAL_NEUTRAL;
+        break;
+      case EYE_DECAL_NEUTRAL:
+        // Eye now neutral, deschedule decals.
+        scheduledEyeDecal.t = 0.0;
+        scheduledEyeDecal.state = 0;
+    }
   }
 
   requestAnimationFrame(func);
