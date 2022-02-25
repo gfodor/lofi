@@ -50,8 +50,8 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 800 / (PLATFORM === "mac" ? 2 : 1),
-    height: 450 / (PLATFORM === "mac" ? 2 : 1),
+    width: 1280 / (PLATFORM === "mac" ? 2 : 1),
+    height: 720 / (PLATFORM === "mac" ? 2 : 1),
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
@@ -83,8 +83,8 @@ async function createWindow() {
 
       const pixfmt = new v4l2_fmt_pix({
         type: V4L2_BUF_TYPE_VIDEO_OUTPUT,
-        width: 800,
-        height: 450,
+        width: 1280,
+        height: 720,
         pixelformat: V4L2_PIX_FMT_YUV420,
       });
 
