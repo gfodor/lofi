@@ -10,8 +10,6 @@
   },
   "dependencies": {
     "classnames": "^2.3.1",
-    "electron": "^17.0.1",
-    "esbuild-plugin-inline-worker": "^0.1.1",
     "ioctl": "github:gfodor/node-ioctl#gfodor/maybe-wrap-fix",
     "libyuv": "github:gfodor/libyuv-node#lofi/master",
     "meyda": "github:jel-app/meyda#master",
@@ -22,6 +20,8 @@
     "ref-struct-di": "^1.1.1"
   },
   "devDependencies": {
+    "electron": "^17.0.1",
+    "esbuild-plugin-inline-worker": "^0.1.1",
     "electron-builder": "22.x",
     "electron-esbuild": "4.x",
     "electron-util": "0.17.x",
