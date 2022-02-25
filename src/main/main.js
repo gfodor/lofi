@@ -95,16 +95,11 @@ async function createWindow() {
   }
 
   // TODO pixel ratio of 1
-  win.webContents.setFrameRate(60);
+  win.webContents.setFrameRate(30);
 
   win.webContents.on("paint", (event, dirty, image) => {
     // TODO this Uint8Array may not be needed
     const now = performance.now();
-    frameTimings.push(now);
-
-    if (frameTimings.length > 180) {
-      frameTimings.shift();
-    }
 
     const buf = new Uint8Array(image.getBitmap());
     const { width, height: height_ } = image.getSize();
@@ -132,28 +127,20 @@ async function createWindow() {
       fs.write(cameraFd, i420, () => {});
     }
 
-    if (frameTimings.length > 30) {
-      const fpsDenominator = Math.floor(
-        (frameTimings[frameTimings.length - 1] - frameTimings[0]) / 1000.0
+    const uyvy = new Uint8Array(new Buffer(Math.floor(width * height * 2)));
+    uyvy.fill(0, 0, Math.floor(width * height * 2));
+
+    libyuv.ARGBToUYVY(buf, width * 4, uyvy, width * 2, width, height);
+
+    if (addonModule.sendFrame) {
+      addonModule.sendFrame(
+        width,
+        height,
+        BigInt(new Date().getTime()),
+        180,
+        6,
+        uyvy
       );
-      const fpsNumerator = frameTimings.length;
-      const fps = fpsNumerator / fpsDenominator;
-
-      const uyvy = new Uint8Array(new Buffer(Math.floor(width * height * 2)));
-      uyvy.fill(0, 0, Math.floor(width * height * 2));
-
-      libyuv.ARGBToUYVY(buf, width * 4, uyvy, width * 2, width, height);
-
-      if (addonModule.sendFrame) {
-        addonModule.sendFrame(
-          width,
-          height,
-          BigInt(new Date().getTime()),
-          fpsNumerator,
-          fpsDenominator,
-          uyvy
-        );
-      }
     }
   });
 
