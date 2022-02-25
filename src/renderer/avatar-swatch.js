@@ -2,6 +2,10 @@ import React, { forwardRef, Component } from "react";
 import PropTypes from "prop-types";
 import classNames from "classnames";
 
+const bodyR = 32 + Math.floor(Math.random() * 192.0);
+const bodyG = 32 + Math.floor(Math.random() * 192.0);
+const bodyB = 32 + Math.floor(Math.random() * 192.0);
+
 import avatarBodyIcon from "../../resources/images/avatar/avatar.svgi";
 import eyes1 from "../../resources/images/avatar/eyes-1.svg";
 import eyes2 from "../../resources/images/avatar/eyes-1.svg";
@@ -52,7 +56,13 @@ const AvatarSwatchVisemeSrcs = [
 ];
 
 const AvatarBody = () => (
-  <div className={classNames("avatar-body")} key="body" />
+  <div
+    style={{
+      background: `rgba(${bodyR}, ${bodyG}, ${bodyB}, 1.0)`,
+    }}
+    className={classNames("avatar-body")}
+    key="body"
+  />
 );
 
 const AvatarSwatch = forwardRef((props, ref) => {
