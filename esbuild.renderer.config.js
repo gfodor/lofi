@@ -11,6 +11,7 @@ export default {
     path.resolve("src/renderer/index.css"),
   ],
   bundle: true,
+  minify: false, // Minification screws up the worklet injection
   target: "chrome96", // electron version target
   loader: { ".js": "jsx", ".svg": "file", ".svgi": "text" },
   plugins: [inlineWorkerPlugin()],
