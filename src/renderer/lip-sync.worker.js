@@ -261,7 +261,14 @@ onmessage = async function (event) {
 
     tf.setBackend("wasm").then(() => {
       tf.loadLayersModel(modelSrc).then((model) => {
-        setInterval(() => performPrediction(model), PREDICTION_INTERVAL);
+        let running = false;
+
+        setInterval(() => {
+          if (running) return;
+          running = true;
+          performPrediction(model);
+          running = false;
+        }, PREDICTION_INTERVAL);
       });
     });
   }
