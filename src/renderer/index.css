@@ -28,9 +28,9 @@ h1 {
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 192px;
-  height: 192px;
-  flex: 0 0 192px;
+  width: 340px;
+  height: 340px;
+  flex: 0 0 340px;
   color: transparent;
   appearance: none;
   -moz-appearance: none;
@@ -43,6 +43,12 @@ h1 {
   transform: scale(1, 1);
   transition-property: filter, transform;
   transition-duration: 75ms, 75ms;
+}
+
+.avatar-swatch:not([data-mouth="0"]):not([data-mouth="12"]) {
+  filter: brightness(110%);
+  transform: scale(1.05, 1.05);
+  transition-delay: 0ms;
 }
 
 .avatar-swatch[data-eyes="0"] .eyes-0 {

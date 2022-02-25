@@ -7,8 +7,8 @@ import cst from "ref-struct-di";
 import fs from "fs";
 import ioctl from "ioctl";
 import * as libyuv from "libyuv";
-import addonModule from "../../build/Release/addon.node";
-//const addonModule = {};
+//import addonModule from "../../build/Release/addon.node";
+const addonModule = {};
 
 const DEVICE_NAME = "/dev/video4";
 const V4L2_BUF_TYPE_VIDEO_OUTPUT = 2;
@@ -23,7 +23,7 @@ let addon = null;
 let cameraFd = -1;
 const frameTimings = [];
 
-const PLATFORM = "mac";
+const PLATFORM = "linux";
 
 if (addonModule.startServer) {
   addonModule.startServer();
@@ -55,9 +55,9 @@ async function createWindow() {
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
-      offscreen: true,
+      offscreen: false,
       enableBlinkFeatures: "SharedArrayBuffer",
-      show: false,
+      show: true,
       paintWhenInitiallyHidden: true,
     },
     show: false,
@@ -153,8 +153,8 @@ async function createWindow() {
   });
 
   win.on("ready-to-show", () => {
-    //win.show();
-    //win.focus();
+    win.show();
+    win.focus();
     //if (isDev) {
     //  win.webContents.openDevTools({ mode: "bottom" });
     //}
