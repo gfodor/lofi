@@ -156,7 +156,7 @@
 			[NSUserDefaults standardUserDefaults];
 		double fps =
 			[[defaults objectForKey:kTestCardFPSKey] doubleValue];
-		if (isnan(fps) || fps <= 0 || fps > 120) {
+		if (isnan(fps) || fps <= 5 || fps > 120) {
 			_fps = DEFAULT_FPS;
 			DLog(@"Setting default framerate %f", fps);
 		} else {
