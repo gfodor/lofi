@@ -19,6 +19,8 @@ const lipSyncFeatureData = new Float32Array(lipSyncFeatureBuffer.featureBuffer);
 const lipSyncResultData = new Uint8Array(lipSyncResultBuffer);
 const lipSyncVadData = new Float32Array(lipSyncVadBuffer);
 
+document.body.style = `zoom: ${(1 / window.devicePixelRatio) * 100}%`;
+
 navigator.mediaDevices.getUserMedia({ audio: true }).then((media) => {
   const audioContext = new (window.AudioContext || window.webkitAudioContext)();
   const source = audioContext.createMediaStreamSource(media);

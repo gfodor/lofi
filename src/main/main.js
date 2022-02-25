@@ -7,8 +7,8 @@ import cst from "ref-struct-di";
 import fs from "fs";
 import ioctl from "ioctl";
 import * as libyuv from "libyuv";
-//import addonModule from "../../build/Release/addon.node";
-const addonModule = {};
+import addonModule from "../../build/Release/addon.node";
+//const addonModule = {};
 
 const DEVICE_NAME = "/dev/video4";
 const V4L2_BUF_TYPE_VIDEO_OUTPUT = 2;
@@ -23,7 +23,7 @@ let addon = null;
 let cameraFd = -1;
 const frameTimings = [];
 
-const PLATFORM = "linux";
+const PLATFORM = "mac";
 
 if (addonModule.startServer) {
   addonModule.startServer();
@@ -50,8 +50,8 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 800,
-    height: 450,
+    width: 800 / (PLATFORM === "mac" ? 2 : 1),
+    height: 450 / (PLATFORM === "mac" ? 2 : 1),
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
