@@ -37,7 +37,12 @@
     "mac": {
       "target": [
         "zip"
-      ]
+       ],
+       "hardenedRuntime": true,
+       "entitlements": "entitlements.mac.plist",
+       "extendInfo": {
+            "NSMicrophoneUsageDescription": "Please give us access to your microphone"
+        }
     },
     "linux": {
       "target": [
