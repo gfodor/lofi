@@ -7,8 +7,8 @@ import cst from "ref-struct-di";
 import fs from "fs";
 import ioctl from "ioctl";
 import * as libyuv from "libyuv";
-//import addonModule from "../../build/Release/addon.node";
-const addonModule = {};
+import addonModule from "../../build/Release/addon.node";
+//const addonModule = {};
 
 const DEVICE_NAME = "/dev/video4";
 const V4L2_BUF_TYPE_VIDEO_OUTPUT = 2;
@@ -23,7 +23,10 @@ let addon = null;
 let cameraFd = -1;
 const frameTimings = [];
 
-const PLATFORM = "linux";
+const PLATFORM = "mac";
+const OFFSCREEN = true;
+const WIDTH = 800;
+const HEIGHT = 450;
 
 if (addonModule.startServer) {
   addonModule.startServer();
@@ -50,14 +53,14 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: 800 / (PLATFORM === "mac" ? 2 : 1),
-    height: 450 / (PLATFORM === "mac" ? 2 : 1),
+    width: WIDTH / (PLATFORM === "mac" ? 2 : 1),
+    height: HEIGHT / (PLATFORM === "mac" ? 2 : 1),
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
-      offscreen: false,
+      offscreen: OFFSCREEN,
+      show: !OFFSCREEN,
       enableBlinkFeatures: "SharedArrayBuffer",
-      show: true,
       paintWhenInitiallyHidden: true,
     },
     show: false,
@@ -83,8 +86,8 @@ async function createWindow() {
 
       const pixfmt = new v4l2_fmt_pix({
         type: V4L2_BUF_TYPE_VIDEO_OUTPUT,
-        width: 800,
-        height: 450,
+        width: WIDTH,
+        height: HEIGHT,
         pixelformat: V4L2_PIX_FMT_YUV420,
       });
 
@@ -153,11 +156,9 @@ async function createWindow() {
   });
 
   win.on("ready-to-show", () => {
+    if (OFFSCREEN) return;
     win.show();
     win.focus();
-    //if (isDev) {
-    //  win.webContents.openDevTools({ mode: "bottom" });
-    //}
   });
 }
 
