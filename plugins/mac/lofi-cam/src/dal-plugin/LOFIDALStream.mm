@@ -378,8 +378,6 @@
 	}
 	OSStatus err = noErr;
 
-	uint64_t hostTime = mach_absolute_time();
-
 	CMSampleTimingInfo timingInfo = CMSampleTimingInfoForTimestamp(
 		timestamp, fpsNumerator, fpsDenominator);
 
@@ -398,8 +396,6 @@
 	CMSampleBufferCreateFromData(size, timingInfo, self.sequenceNumber,
 				     frameData, &sampleBuffer);
 	CMSimpleQueueEnqueue(self.queue, sampleBuffer);
-
-	DLog(@"Enqueue %f %f %d %d %llu", size.width, size.height, fpsNumerator, fpsDenominator, timestamp);
 
 	// Inform the clients that the queue has been altered
 	if (self.alteredProc != NULL) {
