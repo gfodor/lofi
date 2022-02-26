@@ -378,8 +378,10 @@
 	}
 	OSStatus err = noErr;
 
+	uint64_t hostTime = mach_absolute_time();
+
 	CMSampleTimingInfo timingInfo = CMSampleTimingInfoForTimestamp(
-		timestamp, fpsNumerator, fpsDenominator);
+		hostTime, fpsNumerator, fpsDenominator);
 
 	err = CMIOStreamClockPostTimingEvent(timingInfo.presentationTimeStamp,
 					     mach_absolute_time(), true,
