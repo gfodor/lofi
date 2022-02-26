@@ -26,7 +26,7 @@ const frameTimings = [];
 const PLATFORM = "mac";
 const OFFSCREEN = true;
 const WIDTH = 800;
-const HEIGHT = 450;
+const HEIGHT = 448;
 
 if (addonModule.startServer) {
   addonModule.startServer();
@@ -108,40 +108,41 @@ async function createWindow() {
     const { width, height: height_ } = image.getSize();
     const height = Math.abs(height_);
 
-    if (PLATFORM === "linux" && cameraFd !== -1) {
-      const i420 = new Uint8Array(new Buffer(Math.floor(width * height * 1.5)));
-      i420.fill(0, 0, Math.floor(width * height * 1.5));
+    const i420 = new Uint8Array(new Buffer(Math.floor(width * height * 1.5)));
+    i420.fill(0, 0, Math.floor(width * height * 1.5));
 
-      const half_width = Math.floor(width / 2);
-      const half_height = Math.floor(height / 2);
+    const half_width = Math.floor(width / 2);
+    const half_height = Math.floor(height / 2);
 
-      libyuv.ARGBToI420(
-        buf,
-        width * 4,
-        i420,
-        width,
-        i420.subarray(width * height),
-        half_width,
-        i420.subarray(width * height + (width * height) / 4),
-        half_width,
-        width,
-        height
-      );
-      fs.write(cameraFd, i420, () => {});
-    }
+    libyuv.ARGBToI420(
+      buf,
+      width * 4,
+      i420,
+      width,
+      i420.subarray(width * height),
+      half_width,
+      i420.subarray(width * height + (width * height) / 4),
+      half_width,
+      width,
+      height
+    );
 
     const uyvy = new Uint8Array(new Buffer(Math.floor(width * height * 2)));
     uyvy.fill(0, 0, Math.floor(width * height * 2));
 
     libyuv.ARGBToUYVY(buf, width * 4, uyvy, width * 2, width, height);
 
+    if (PLATFORM === "linux" && cameraFd !== -1) {
+      fs.write(cameraFd, i420, () => {});
+    }
+
     if (addonModule.sendFrame) {
       addonModule.sendFrame(
         width,
         height,
-        BigInt(new Date().getTime()),
-        180,
-        6,
+        BigInt((new Date().getTime() - 1621811197991993) * 1000000),
+        30,
+        1,
         uyvy
       );
     }

@@ -381,7 +381,7 @@
 	uint64_t hostTime = mach_absolute_time();
 
 	CMSampleTimingInfo timingInfo = CMSampleTimingInfoForTimestamp(
-		hostTime, fpsNumerator, fpsDenominator);
+		timestamp, fpsNumerator, fpsDenominator);
 
 	err = CMIOStreamClockPostTimingEvent(timingInfo.presentationTimeStamp,
 					     mach_absolute_time(), true,
@@ -398,6 +398,8 @@
 	CMSampleBufferCreateFromData(size, timingInfo, self.sequenceNumber,
 				     frameData, &sampleBuffer);
 	CMSimpleQueueEnqueue(self.queue, sampleBuffer);
+
+	DLog(@"Enqueue %f %f %d %d %llu", size.width, size.height, fpsNumerator, fpsDenominator, timestamp);
 
 	// Inform the clients that the queue has been altered
 	if (self.alteredProc != NULL) {
