@@ -53,8 +53,8 @@ const v4l2_fmt_pix = Struct({
 
 async function createWindow() {
   win = new BrowserWindow({
-    width: WIDTH / (PLATFORM === "mac" ? 2 : 1),
-    height: HEIGHT / (PLATFORM === "mac" ? 2 : 1),
+    width: WIDTH,
+    height: HEIGHT,
     webPreferences: {
       nodeIntegration: false,
       preload: path.join(__dirname, "preload.js"),
@@ -107,6 +107,14 @@ async function createWindow() {
     const buf = new Uint8Array(image.getBitmap());
     const { width, height: height_ } = image.getSize();
     const height = Math.abs(height_);
+
+    if (width !== WIDTH) {
+      const inversePixelRatio = WIDTH / width;
+      win.setSize(
+        Math.floor(WIDTH * inversePixelRatio),
+        Math.floor(HEIGHT * inversePixelRatio)
+      );
+    }
 
     const i420 = new Uint8Array(new Buffer(Math.floor(width * height * 1.5)));
     i420.fill(0, 0, Math.floor(width * height * 1.5));
