@@ -73,7 +73,7 @@
     "ref-struct-di": "^1.1.1"
   },
   "devDependencies": {
-    "electron": "^17.0.1",
+    "electron": "^18.3.7",
     "electron-builder": "22.x",
     "electron-esbuild": "4.x",
     "electron-notarize": "^1.1.1",
